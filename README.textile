@@ -1,7 +1,7 @@
 h2. upplys.rb
 
-Läser
+LÃ¤ser
 "RSS-feeden":http://www.lysator.liu.se/upplysning/upplysning.rss.html
-för Lysators föredragsverksamhet
+fÃ¶r Lysators fÃ¶redragsverksamhet
 "UppLYSning":http://www.lysator.liu.se/upplysning/ och producerar en
 iCal-feed.
