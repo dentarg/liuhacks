@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/local/bin/ruby
 
 require 'rss/1.0'
 require 'rss/2.0'
