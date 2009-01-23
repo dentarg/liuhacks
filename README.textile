@@ -1,3 +1,10 @@
+h2. tentamensdatum.rb
+
+Indata hämtas manuellt från Studentportalen, under "Tentamensanmälan".
+En rad ser ut så här:
+
+	"TDDD17\tInformationss\344kerhet, fk  \tSkriftlig tentamen (TEN1)\t2009-03-09\t 8\t-\t12\t Link\366ping\t 2009-02-07 - 2009-03-01\n"
+
 h2. upplys.rb
 
 Läser
