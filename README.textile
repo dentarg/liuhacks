@@ -1,3 +1,10 @@
+h2. studieresultat.rb
+
+Indata hämtas manuellt från Studentportalen, under "Studieresultat".
+En rad ser ut så här:
+
+	"TDDB68*\tProcessprogrammering och operativsystem\t6.0\t5\t2007-12-20\n"
+
 h2. tentamensdatum.rb
 
 Indata hämtas manuellt från Studentportalen, under "Tentamensanmälan".
