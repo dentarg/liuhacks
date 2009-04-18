@@ -36,7 +36,7 @@ class Course
   def month
     @month
   end
-  
+
   def real_grade
     @real_grade = @grade.to_i
     @real_grade if @real_grade > 0
