@@ -82,13 +82,14 @@ school_year(fourth_year, "HT08/VT09")
 
 real_grade_count = 0
 real_grade_sum = 0.0
-courses.each do |c|
-  if c.real_grade
+points_tot = 0.0
+courses.each do |course|
+  if course.real_grade
     real_grade_count += 1
-    real_grade_sum += c.real_grade
-    #puts "#{c.code} #{c.real_grade}"
+    real_grade_sum += course.real_grade
+    points_tot += course.points
   end
 end
-puts "Antal kurser: #{real_grade_count}"
-puts "Summa: #{real_grade_sum}"
+puts "Antal kurser: #{real_grade_count} (#{courses.length})"
+puts "Poäng totalt: #{points_tot}"
 puts "Snitt: #{real_grade_sum/real_grade_count}"
