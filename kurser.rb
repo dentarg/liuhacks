@@ -5,11 +5,13 @@ require 'open-uri'
 #$url = "http://kdb-5.liu.se/liu/lith/studiehandboken/svkursplan.lasso?&k_budget_year=2007&k_kurskod="
 $url = "http://kdb-5.liu.se/liu/lith/studiehandboken/svkursplan.lasso?&k_budget_year=2009&k_kurskod="
 
-$kurser = %w(TGTU55 TAMS27 TDDC93 TSEA29 TDDB68)
+nya_kurser = %w(TDDC90 TSIT03 TDDB84 TDDD43 TSIN01 TDDD22 TDDC70)
+oklarade_kurser = %w(TSRT12 TDDC94 TDDD19 TDDB44 TFYY68 TAMS27 TFYA48)
+$kurser = oklarade_kurser
 
 def mymerge(one, two)
 	hash = {}
-	one.each_with_index do |item,index| 
+	one.each_with_index do |item,index|
 		hash[item] = two[index]
 	end
 	return hash
@@ -39,14 +41,14 @@ class Course
 	end
 	
 	def pretty_print
-	  puts "#{@code}: #{@name}"
-	  puts "\t Level: #{@level}"
-	  puts "\t Area: #{@area}"
-	  puts "\t Points: #{@points} hp"
-	  puts "---"
+	  return "#{@code};#{@name};#{@level};#{@points};#{@area}\n"
   end
 end
 
-$kurser.each do |kurs|
-  Course.new(kurs).pretty_print
+File.open("kursdata.txt", "w") do |f|
+  f.write("kurskod;namn;nivå;hp;huvudområde\n")
+  $kurser.each do |kurs|
+    f.write(Course.new(kurs).pretty_print)
+    puts "Wrote #{kurs}"
+  end
 end
