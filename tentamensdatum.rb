@@ -6,13 +6,27 @@ require 'date'
 
 include Icalendar
 
+def usage
+  puts "Usage: #{$0} inputfile"
+  puts "inputfile är en textfil med utdrag från Tentamensanmälan i Studentportalen"
+  puts "skapar kalenderfilen inputfile.ics"
+end
+
+if !ARGV.empty? && ARGV.length == 1
+  inputfile = ARGV[0]
+  if !File.exist?(inputfile)
+    puts "File not found: #{inputfile}"
+    exit
+  end
+else
+  usage
+  exit
+end
 
 cal = Calendar.new
 cal.custom_property("X-WR-CALNAME", "Tentor")
 cal.custom_property("X-WR-CALDESC", "Examinationsmoment")
 
-icsfile   = "tentamensdatum.ics"
-inputfile = "tentamensdatum_input.txt"
 f = File.open(inputfile)
 
 f.each do |line|
@@ -25,7 +39,8 @@ f.each do |line|
     day = $6.to_i
     starttime = $7.to_i
     endtime = $8.to_i
-    puts "#{code} [#{name}] #{year}-#{month}-#{day} #{starttime}-#{endtime}"
+    #puts "#{code} [#{name}] #{year}-#{month}-#{day} #{starttime}-#{endtime}"
+    puts "#{code}: #{year}-#{month}-#{day} #{starttime}-#{endtime}"
   end
 
   event_start = DateTime.civil(Time.now.year, month, day, starttime)
@@ -40,4 +55,6 @@ f.each do |line|
   end
 end
 
+icsfile = "#{inputfile}.ics"
 File.open(icsfile, "w").write(cal.to_ical)
+puts "Wrote to above data to #{icsfile}."
