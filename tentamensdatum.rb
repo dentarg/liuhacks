@@ -39,12 +39,12 @@ f.each do |line|
     day = $6.to_i
     starttime = $7.to_i
     endtime = $8.to_i
-    #puts "#{code} [#{name}] #{year}-#{month}-#{day} #{starttime}-#{endtime}"
-    puts "#{code}: #{year}-#{month}-#{day} #{starttime}-#{endtime}"
   end
 
-  event_start = DateTime.civil(Time.now.year, month, day, starttime)
-  event_end = DateTime.civil(Time.now.year, month, day, endtime)
+  event_start = DateTime.civil(year, month, day, starttime)
+  event_end = DateTime.civil(year, month, day, endtime)
+
+  puts "#{code}: #{event_start.strftime("%B %d kl %H.00 (%Y)")}"
 
   cal.event do
     dtstart(event_start)

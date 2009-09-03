@@ -14,8 +14,4 @@ En rad ser ut så här:
 
 h2. upplys.rb
 
-Läser
-"RSS-feeden":http://www.lysator.liu.se/upplysning/upplysning.rss.html
-för Lysators föredragsverksamhet
-"UppLYSning":http://www.lysator.liu.se/upplysning/ och producerar en
-iCal-feed.
+Läser "RSS-feeden":http://www.lysator.liu.se/upplysning/upplysning.rss.html för Lysators föredragsverksamhet "UppLYSning":http://www.lysator.liu.se/upplysning/ och producerar en iCal-feed.
