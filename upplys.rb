@@ -9,7 +9,8 @@ require 'date'
 
 include Icalendar
 
-icsfile = "/home/dentarg/www/vhosts/blog.dentarg.net/upplysningar.ics"
+#icsfile = "/home/dentarg/www/vhosts/blog.dentarg.net/upplysningar.ics"
+icsfile = "upplysningar.ics"
 source = "http://www.lysator.liu.se/upplysning/upplysning.rss.html"
 content = "" # raw content of rss feed will be loaded here
 open(source) {|s| content = s.read }
@@ -17,8 +18,8 @@ open(source) {|s| content = s.read }
 rss = RSS::Parser.parse(content, false)
 cal = Calendar.new
 
-cal.custom_property("X-WR-CALNAME", "UppLYSning")
-cal.custom_property("X-WR-CALDESC", "Lysators föredragsverksamhet")
+cal.custom_property("X-WR-CALNAME;VALUE=TEXT", "UppLYSning")
+cal.custom_property("X-WR-CALDESC;VALUE=TEXT", "Lysators föredragsverksamhet")
 
 rss.items.each do |item|
 	if item.title.match(/(\d+)\/(\d+): (.+)/)
