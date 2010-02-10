@@ -18,7 +18,7 @@ För att skapa en fil att importera i sin kalender:
 
 	$ tentasearch.rb --ical TDDD19 TDDD25 > exams.ics
 
-h2. upplys.rb
--------------
+upplys.rb
+---------
 
 Läser [RSS-feeden](http://www.lysator.liu.se/upplysning/upplysning.rss.html) för Lysators föredragsverksamhet [UppLYSning](http://www.lysator.liu.se/upplysning/) och producerar en iCal-feed.
