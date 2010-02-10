@@ -106,8 +106,9 @@ end
 def print_ical(codes)
   results = search(codes)
   cal = Calendar.new
-  cal.custom_property("X-WR-CALNAME;VALUE=TEXT", "#{codes}")
-  cal.custom_property("X-WR-CALDESC;VALUE=TEXT", "Exams: #{codes}")
+  codes = codes.inject { |r,e| "#{r},#{e}" }
+  cal.custom_property("X-WR-CALNAME;VALUE=TEXT", "Tentamensdatum")
+  cal.custom_property("X-WR-CALDESC;VALUE=TEXT", "Kurser: #{codes}")
   for res in results
     event = Event.new
     event.summary = "#{res[:code]} #{res[:name]}"
@@ -118,10 +119,12 @@ def print_ical(codes)
   puts cal.to_ical
 end
 
+# TODO: Sort list by date
 def print_list(codes)
   results = search(codes)
   puts "Kurskod\tKursnamn\t\tDatum\t\tTid\tAnmälningsperiod"
   for res in results
+    # We want nice columns
     len = res[:name].length
     if len > 18
       name = "#{res[:name][0..18]}..."
