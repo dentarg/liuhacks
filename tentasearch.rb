@@ -1,8 +1,14 @@
+#!/usr/bin/env ruby
 require 'rubygems' 
 require 'hpricot'
 require 'open-uri'
+require 'icalendar'
+require 'date'
+include Icalendar
 
 COURSE_CODE_REGEXP = /[A-Z]{4}\d{2}/
+
+# TODO: Use OOP
 
 # Wrapper around http://www4.student.liu.se/tentasearch/
 
@@ -18,7 +24,7 @@ def test_regex(line,regexps)
   for re in regexps
     if re.match(line)
       #p line[0..80] + "..."
-      puts "#{re.to_s}: "
+      #puts "#{re.to_s}: "
       p line.match(re).to_a[1..-1]
     end
   end
@@ -37,15 +43,14 @@ end
 def tentasearch(code, results)
   # fetch stuff
   url = "http://www4.student.liu.se/tentasearch/?kurskod=#{code}"
-  #doc = Hpricot(open(url))
-  doc = Hpricot(open("TDDD19_hpricot.html")) # for faster testing
+  doc = Hpricot(open(url))
   doc.to_s.each do |line|
     parse_html(line, results)
   end
 end
 
 def parse_html(line, results)
-  # Looking for this:
+  # This is a complete line
   # <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">TDDD25/TEN1</font></td>
   # FIXME: Should compare with given course code here
   re_code = /<td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">(#{COURSE_CODE_REGEXP})\/([A-Z]{3}\d)<\/font><\/td>/
@@ -64,33 +69,53 @@ def parse_html(line, results)
 
   regexps = [re_code, re_name, re_date, re_starttime, re_endtime, re_signupperiod]
   #test_regex(line, regexps)
-    
-  code = line.match(re_code).to_a[1]
-  name = line.match(re_name).to_a[1]
-  date = "#{line.match(re_date).to_a[1]}-#{line.match(re_date).to_a[2]}-#{line.match(re_date).to_a[3]}"
-  starttime = line.match(re_starttime).to_a[1]
-  endtime = line.match(re_endtime).to_a[1]
-  signupstart = "#{line.match(re_signupperiod).to_a[1]}-#{line.match(re_signupperiod).to_a[2]}-#{line.match(re_signupperiod).to_a[3]}"
-  signupend = "#{line.match(re_signupperiod).to_a[4]}-#{line.match(re_signupperiod).to_a[5]}-#{line.match(re_signupperiod).to_a[6]}"
   
-  res = {:code => code, 
-          :name => name, 
-          :date => date,
-          :startime => starttime,
-          :endtime => endtime,
-          :signupstart => signupstart, 
-          :signupend => signupend }
+  res = { :code         =>  line.match(re_code).to_a[1], 
+          :name         =>  line.match(re_name).to_a[1], 
+          :date         =>  "#{line.match(re_date).to_a[1]}" +
+                            "-#{line.match(re_date).to_a[2]}-" +
+                            "#{line.match(re_date).to_a[3]}",
+          :year         =>  line.match(re_date).to_a[1].to_i,
+          :month        =>  line.match(re_date).to_a[2].to_i,
+          :day          =>  line.match(re_date).to_a[3].to_i,
+          :starttime    =>  line.match(re_starttime).to_a[1].to_i,
+          :endtime      =>  line.match(re_endtime).to_a[1].to_i,
+          :signupstart  =>  "#{line.match(re_signupperiod).to_a[1]}-" +
+                            "#{line.match(re_signupperiod).to_a[2]}-" + 
+                            "#{line.match(re_signupperiod).to_a[3]}",
+          :signupend    =>  "#{line.match(re_signupperiod).to_a[4]}-" +
+                            "#{line.match(re_signupperiod).to_a[5]}-" + 
+                            "#{line.match(re_signupperiod).to_a[6]}" }
+
+  # FIXME: Should check if everything matched
   if re_name.match(line)
     results << res
   end
 end
 
 def print_help()
-  puts "Help!"
+  puts "Usage: #{$0} [option] coursecode ..."
+  puts "  -i, --ical\tOutput iCal data"
+  puts "  -h, --help\tThis help text"
+  puts ""
+  puts "Examaple:"
+  puts "  #{$0} TDDD19 TDDD25"
+  puts "  #{$0} -i TDDD19 TDDD25"
 end
 
 def print_ical(codes)
   results = search(codes)
+  cal = Calendar.new
+  cal.custom_property("X-WR-CALNAME;VALUE=TEXT", "#{codes}")
+  cal.custom_property("X-WR-CALDESC;VALUE=TEXT", "Exams: #{codes}")
+  for res in results
+    event = Event.new
+    event.summary = "#{res[:code]} #{res[:name]}"
+    event.start = DateTime.civil(res[:year], res[:month], res[:day], res[:starttime])
+    event.end = DateTime.civil(res[:year], res[:month], res[:day], res[:endtime])
+    cal.add_event(event)
+  end
+  puts cal.to_ical
 end
 
 def print_list(codes)
@@ -102,8 +127,8 @@ def print_list(codes)
     else
       name = res[:name]
     end
-    # {:code=>"TDDD25", :date=>"2010-10-10", :startime=>"8", :signupstart=>"2010-08-08", :name=>"Distribuerade system", :signupend=>"2010-02-28"}
-    puts "#{res[:code]}\t#{name}\t#{res[:date]}\t#{res[:startime]}-#{res[:endtime]}\t#{res[:signupstart]} - #{res[:signupend]}"
+    puts "#{res[:code]}\t#{name}\t#{res[:date]}\t#{res[:starttime]}-" +
+      "#{res[:endtime]}\t#{res[:signupstart]} - #{res[:signupend]}"
   end
 end
 
