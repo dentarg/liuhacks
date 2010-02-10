@@ -53,7 +53,7 @@ def parse_html(line, results)
   # This is a complete line
   # <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">TDDD25/TEN1</font></td>
   # FIXME: Should compare with given course code here
-  re_code = /<td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">(#{COURSE_CODE_REGEXP})\/([A-Z]{3}\d)<\/font><\/td>/
+  re_code = /<td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">(#{COURSE_CODE_REGEXP})\/(\w{4})<\/font><\/td>/
   # <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><i>Distribuerade system &nbsp;</i></font></td>
   re_name = /<td><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><i>(.+) .+<\/i><\/font><\/td>/
   # <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">2010&#45;03&#45;10</font></td>
@@ -122,10 +122,14 @@ def print_list(codes)
   results = search(codes)
   puts "Kurskod\tKursnamn\t\tDatum\t\tTid\tAnmälningsperiod"
   for res in results
-    if res[:name].length > 18
+    len = res[:name].length
+    if len > 18
       name = "#{res[:name][0..18]}..."
     else
       name = res[:name]
+      (18-len).times do 
+         name = name + " "
+       end
     end
     puts "#{res[:code]}\t#{name}\t#{res[:date]}\t#{res[:starttime]}-" +
       "#{res[:endtime]}\t#{res[:signupstart]} - #{res[:signupend]}"
