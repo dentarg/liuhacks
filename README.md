@@ -1,10 +1,12 @@
+Små verktyg för att underlätta livet vid [LiU](http://www.liu.se).
+
 tentasearch.rb
 --------------
 
-Ett litet verktyg som söker fram tentamensdatum för en eller flera kurser. Hämtar sin data från http://www4.student.liu.se/tentasearch/.
+Ett litet verktyg som söker fram tentamensdatum för en eller flera kurser. Hämtar sin data från [Sök efter tentamenstillfälle](http://www.student.liu.se/tentasearch/).
 
 	$ tentasearch.rb TDDD19 TDDD25                                                 
-	Kurskod	Kursnamn		Datum		Tid	Anmälningsperiod
+	Kurskod	Kursnamn				Datum		Tid		Anmälningsperiod
 	TDDD19	Avancerad programme...	2010-04-08	8-13	2010-03-09 - 2010-03-29
 	TDDD19	Avancerad programme...	2010-05-31	14-19	2010-05-01 - 2010-05-23
 	TDDD19	Avancerad programme...	2010-08-18	14-19	2010-07-19 - 2010-08-08
