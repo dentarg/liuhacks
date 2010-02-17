@@ -95,10 +95,12 @@ end
 
 def print_help()
   puts "Usage: #{$0} [option] coursecode ..."
+  puts ""
+  puts "Options:"
   puts "  -i, --ical\tOutput iCal data"
   puts "  -h, --help\tThis help text"
   puts ""
-  puts "Examaple:"
+  puts "Examaples:"
   puts "  #{$0} TDDD19 TDDD25"
   puts "  #{$0} -i TDDD19 TDDD25"
 end
