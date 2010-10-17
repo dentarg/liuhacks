@@ -8,7 +8,9 @@ include Icalendar
 
 COURSE_CODE_REGEXP = /[A-Z]{4}\d{2}/
 
-# TODO: Use OOP
+# TODO: 
+  # Use OOP
+  # Use Trollop (commandline option parser)
 
 # Wrapper around http://www4.student.liu.se/tentasearch/
 
