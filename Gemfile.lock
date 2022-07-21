@@ -2,7 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     ri_cal (0.8.8)
-    tzinfo (0.3.35)
+    tzinfo (0.3.61)
 
 PLATFORMS
   ruby
